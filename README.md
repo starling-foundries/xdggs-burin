@@ -25,7 +25,7 @@ import xdggs_burin  # registers the "rhealpix.burin" grid with xdggs
 
 lon = np.linspace(-0.3, 0.2, 100)
 lat = np.linspace(51.3, 51.7, 100)
-cells = xdggs_burin.RHEALPixInfo(level=8).geographic2cell_ids(lon, lat)
+cells = np.unique(xdggs_burin.RHEALPixInfo(level=8).geographic2cell_ids(lon, lat))  # one row per cell
 
 ds = xr.Dataset(
     {"value": ("cells", np.arange(cells.size, dtype=float))},
