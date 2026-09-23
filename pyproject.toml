@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "xdggs-burin"
+version = "0.1.0"
+description = "The rHEALPix DGGS for xdggs, computed by burin-core: cell centres, point lookup, boundaries, zooming, and a 32-byte fingerprint of any set of cells."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "Cameron Sajedi", email = "cameronsajedi@gmail.com" }]
+keywords = ["dggs", "rhealpix", "xarray", "xdggs", "ogc", "equal-area"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: GIS",
+]
+dependencies = [
+    "xdggs>=0.6,<0.7",
+    "burin-core>=0.2",
+    "numpy>=2",
+    "shapely>=2",
+    "arro3-core>=0.4",
+    "pyproj>=3.3",
+    "xarray",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8", "rhealpixdggs==0.8.6"]
+
+# xdggs registers grids when their module is imported; this entry point names the module for a
+# loader that discovers grids.
+[project.entry-points."xdggs.grids"]
+"rhealpix.burin" = "xdggs_burin.index:RHEALPixIndex"
+
+[project.urls]
+Repository = "https://github.com/starling-foundries/xdggs-burin"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/xdggs_burin"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["error"]
+
+[tool.uv.sources]
+burin-core = { path = "../burin-core", editable = true }
