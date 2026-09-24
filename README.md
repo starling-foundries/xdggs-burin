@@ -65,6 +65,10 @@ four corners, since their edges are meridians and parallels; polar cells are den
 that crosses the antimeridian has longitudes past 180, and each polar cap is closed through its
 pole.
 
+Polygons are drawings: a point on or very near an edge can fall outside the polygon of the cell it
+belongs to. Decide which cell a point is in with `geographic2cell_ids` (or `ds.dggs.sel_latlon`),
+never with a polygon test. Cell assignment is bit-for-bit deterministic on every platform.
+
 ## Development
 
 ```bash
