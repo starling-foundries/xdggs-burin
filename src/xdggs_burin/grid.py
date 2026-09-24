@@ -24,6 +24,19 @@ OGC_PARAMETERS = {"lon_0": 50.0, "north_square": 0, "south_square": 0, "ellipsoi
 POLAR_EDGE_POINTS = 5
 
 
+def _level(value) -> int:
+    """A refinement level from an attribute: an int, or a float or string that is one exactly."""
+    if isinstance(value, (bool, np.bool_)):
+        raise ValueError(f"level must be an integer, got {value!r}")
+    try:
+        number = value if isinstance(value, (int, np.integer)) else float(value)
+    except (TypeError, ValueError):
+        raise ValueError(f"level must be an integer, got {value!r}") from None
+    if number != int(number):
+        raise ValueError(f"level must be an integer, got {value!r}")
+    return int(number)
+
+
 def _ellipsoid_name(value) -> str:
     if isinstance(value, str):
         return value.upper()
@@ -101,9 +114,9 @@ class RHEALPixInfo(DGGSInfo):
             if not same:
                 raise ValueError(f"{GRID_NAME} is the OGC rHEALPix grid: {key} must be {expected!r}, got {value!r}")
         translations = {
-            "resolution": ("level", int),
-            "refinement_level": ("level", int),
-            "level": ("level", int),
+            "resolution": ("level", _level),
+            "refinement_level": ("level", _level),
+            "level": ("level", _level),
         }
         return cls(**translate_parameters(params, translations))
 

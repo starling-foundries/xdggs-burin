@@ -27,7 +27,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-test = ["pytest>=8", "rhealpixdggs==0.8.6"]
+test = ["pytest>=8", "rhealpixdggs==0.8.6", "h5netcdf", "h5py", "scipy"]
 
 # xdggs registers grids when their module is imported; this entry point names the module for a
 # loader that discovers grids.
